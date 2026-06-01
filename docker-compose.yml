@@ -39,6 +39,8 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules # Do not overwrite container's node_modules with local one
+    environment:
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
     stdin_open: true # Required for React scripts to run properly in Docker
     tty: true
     depends_on:

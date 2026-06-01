@@ -1,0 +1,10 @@
+node_modules
+frontend/node_modules
+frontend/build
+.git
+.env
+Dockerfile*
+docker-compose*
+README.md
+**/node_modules
+**/build

@@ -4,8 +4,6 @@ services:
   mongo:
     image: mongo:4.4-bionic
     container_name: proshop-mongo
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
     restart: always
@@ -16,7 +14,8 @@ services:
       dockerfile: Dockerfile.backend
     container_name: proshop-backend
     ports:
-      - "5000:5000"
+      # Chỉ cho phép host (localhost) truy cập port 5000
+      - "127.0.0.1:5000:5000"
     volumes:
       - ./backend:/app/backend
       - ./uploads:/app/uploads
@@ -35,7 +34,8 @@ services:
       dockerfile: Dockerfile.frontend
     container_name: proshop-frontend
     ports:
-      - "3000:3000"
+      # Chỉ cho phép host (localhost) truy cập port 3000
+      - "127.0.0.1:3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules # Do not overwrite container's node_modules with local one

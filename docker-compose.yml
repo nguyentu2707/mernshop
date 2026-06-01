@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  mongo:
+    image: mongo:4.4-bionic
+    container_name: proshop-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
   backend:
     build:
       context: .
@@ -15,7 +24,9 @@ services:
       - .env
     environment:
       - NODE_ENV=development
-      # Overwrite MONGO_URI from .env if needed, but it will use your MongoDB Atlas URI defined in .env
+      - MONGO_URI=mongodb://mongo:27017/proshop
+    depends_on:
+      - mongo
     restart: always
 
   frontend:
@@ -34,17 +45,5 @@ services:
       - backend
     restart: always
 
-# Optional: If you ever want to run a local MongoDB container instead of MongoDB Atlas,
-# you can uncomment the configuration below:
-# 
-#   mongo:
-#     image: mongo:4.4-bionic
-#     container_name: proshop-mongo
-#     ports:
-#       - "27017:27017"
-#     volumes:
-#       - mongo-data:/data/db
-#     restart: always
-#
-# volumes:
-#   mongo-data:
+volumes:
+  mongo-data:

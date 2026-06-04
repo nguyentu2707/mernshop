@@ -1,0 +1,11 @@
+groups:
+- name: ec2_alerts
+  rules:
+  - alert: HighCPUUsage
+    expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High CPU Usage on {{ $labels.instance }}"
+      description: "CPU usage has exceeded 85% for more than 1 minute. Current value: {{ $value }}%"
